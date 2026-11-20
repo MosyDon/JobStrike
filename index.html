@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JobStrike</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <div class="sidebar-trigger-zone" id="sidebarTrigger"></div>
+
+    <aside class="sidebar hidden-sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        <div class="brand-card">
+          <div class="brand-top">
+            <div>
+              <h1 id="brandTitle">JobStrike</h1>
+              <p>Track your job hunt with style.</p>
+            </div>
+            <button class="icon-btn" id="closeSidebarBtn" title="Close sidebar">✕</button>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <button class="nav-btn active" data-section="dashboard">Dashboard</button>
+          <button class="nav-btn" data-section="add">Add Application</button>
+          <button class="nav-btn" data-section="applications">Applications</button>
+          <button class="nav-btn" data-section="transfer">Import / Export</button>
+          <button class="nav-btn" data-section="settings">Settings</button>
+        </nav>
+
+        <div class="sidebar-mini-card">
+          <div class="mini-label">Current theme</div>
+          <div class="mini-value" id="sidebarTheme">Midnight Navy</div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="icon-btn menu-btn" id="menuBtn" title="Pin / unpin sidebar">☰</button>
+          <div>
+            <h2 id="pageTitle">Dashboard</h2>
+            <p id="pageSubtitle">Your job search, but cleaner and more premium.</p>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <button class="btn secondary" id="quickExportBtn">Quick Export JSON</button>
+          <button class="btn secondary" id="quickExportCsvBtn">Quick Export CSV</button>
+          <button class="btn" id="quickAddBtn">Add Application</button>
+        </div>
+      </header>
+
+      <section class="section active" id="section-dashboard">
+        <div class="hero-card">
+          <div>
+            <div class="eyebrow">Main Dashboard</div>
+            <h3>Everything in one place.</h3>
+            <p>
+              Track all your applications across seeker types, interviews, follow-ups,
+              offers, custom fields, and notes. Everything stays local on your device.
+            </p>
+          </div>
+        </div>
+
+        <div class="stats-grid" id="statsGrid"></div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h3>Recent Applications</h3>
+            <div class="muted" id="recentCount">0 item(s)</div>
+          </div>
+          <div class="cards-grid compact" id="recentCards"></div>
+        </div>
+      </section>
+
+      <section class="section" id="section-add">
+        <div class="panel seeker-gate" id="seekerTypeGate">
+          <div class="seeker-gate-content">
+            <div class="seeker-gate-copy">
+              <div class="eyebrow">Start smart</div>
+              <h3>Select seeker type first.</h3>
+              <p>
+                JobStrike will build the right application form after you choose the type.
+                No default form is forced at the start.
+              </p>
+            </div>
+
+            <div class="seeker-select-panel">
+              <div class="field">
+                <label for="entrySeekerType">Select seeker type *</label>
+                <select id="entrySeekerType" required></select>
+              </div>
+              <div class="seeker-gate-steps">
+                <span class="step-pill active">1. Choose type</span>
+                <span class="step-pill">2. Fill details</span>
+                <span class="step-pill">3. Save card</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel application-form-panel hidden" id="applicationFormPanel">
+          <div class="panel-header">
+            <div>
+              <h3 id="formHeading">Add Application</h3>
+              <div class="muted">Fill only what matters now. You can edit it later.</div>
+            </div>
+            <div class="row">
+              <button class="btn secondary" type="button" id="changeSeekerTypeBtn">Change Type</button>
+              <button class="btn secondary" type="button" id="resetFormBtn">Reset</button>
+            </div>
+          </div>
+
+          <form id="applicationForm">
+            <div class="selected-type-banner">
+              <div>
+                <div class="mini-label">Selected seeker type</div>
+                <div class="selected-type-name" id="selectedSeekerTypeName">General Job Seeker</div>
+              </div>
+              <div class="selected-type-pill">Custom form active</div>
+            </div>
+
+            <div class="form-section-card">
+              <div class="form-section-title">
+                <span>01</span>
+                <div>
+                  <h4>Core application details</h4>
+                  <p>Company, role, status, dates, source, and work mode.</p>
+                </div>
+              </div>
+
+              <div class="form-grid smart-grid">
+                <div class="field">
+                  <label for="company">Company *</label>
+                  <input id="company" type="text" placeholder="e.g. Nova Labs" required />
+                </div>
+
+                <div class="field">
+                  <label for="role">Role *</label>
+                  <input id="role" type="text" placeholder="e.g. Product Designer" required />
+                </div>
+
+                <div class="field">
+                  <label for="status">Status *</label>
+                  <select id="status" required></select>
+                </div>
+
+                <div class="field">
+                  <label for="source">Source</label>
+                  <input id="source" type="text" placeholder="LinkedIn, referral, portal..." />
+                </div>
+
+                <div class="field">
+                  <label for="appliedDate">Date applied</label>
+                  <input id="appliedDate" type="date" />
+                </div>
+
+                <div class="field">
+                  <label for="followUpDate">Follow-up date</label>
+                  <input id="followUpDate" type="date" />
+                </div>
+
+                <div class="field">
+                  <label for="interviewDate">Interview date</label>
+                  <input id="interviewDate" type="date" />
+                </div>
+
+                <div class="field">
+                  <label for="locationMode">Location / mode</label>
+                  <input id="locationMode" type="text" placeholder="Remote, Hybrid, On-site..." />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section-card">
+              <div class="form-section-title">
+                <span>02</span>
+                <div>
+                  <h4>Seeker-specific details</h4>
+                  <p>These fields change based on the seeker type you selected.</p>
+                </div>
+              </div>
+
+              <div class="dynamic-grid smart-grid" id="dynamicFields"></div>
+            </div>
+
+            <div class="form-section-card">
+              <div class="form-section-title">
+                <span>03</span>
+                <div>
+                  <h4>Notes</h4>
+                  <p>Recruiter replies, next steps, reminders, or anything important.</p>
+                </div>
+              </div>
+
+              <div class="field full">
+                <label for="notes">Notes</label>
+                <textarea id="notes" placeholder="Anything important, recruiter response, next step..."></textarea>
+              </div>
+            </div>
+
+            <div class="sub-panel">
+              <div class="panel-header">
+                <h3>Custom Fields</h3>
+                <button class="btn secondary" type="button" id="addCustomFieldBtn">Add Custom Field</button>
+              </div>
+
+              <div class="custom-fields-list" id="customFieldsContainer"></div>
+
+              <p class="footer-note">
+                Custom fields can use built-in field types like text, date, yes/no, dropdown,
+                multi-select, link, and long text. For dropdown or multi-select, separate options with <strong>|</strong>.
+              </p>
+            </div>
+
+            <div class="form-actions">
+              <button class="btn" type="submit" id="submitBtn">Save Application</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section class="section" id="section-applications">
+        <div class="panel">
+          <div class="panel-header">
+            <h3>Applications</h3>
+            <div class="muted"><span id="resultsCount">0</span> result(s)</div>
+          </div>
+
+          <div class="filters-grid">
+            <input id="searchInput" type="text" placeholder="Search company, role, source, notes, custom fields..." />
+            <select id="filterType"></select>
+            <select id="filterStatus"></select>
+            <select id="sortBy">
+              <option value="newest">Sort: Newest</option>
+              <option value="oldest">Sort: Oldest</option>
+              <option value="company">Sort: Company A-Z</option>
+              <option value="role">Sort: Role A-Z</option>
+            </select>
+          </div>
+
+          <div class="cards-grid" id="cardsContainer"></div>
+        </div>
+      </section>
+
+      <section class="section" id="section-transfer">
+        <div class="panel">
+          <div class="panel-header">
+            <h3>Import / Export</h3>
+          </div>
+
+          <div class="button-wrap">
+            <button class="btn" id="exportJsonBtn">Export JSON</button>
+            <button class="btn secondary" id="exportCsvBtn">Export CSV</button>
+            <button class="btn secondary" id="downloadBlankBtn">Download Blank CSV</button>
+            <button class="btn secondary" id="downloadSampleBtn">Download Sample CSV</button>
+          </div>
+
+          <div class="import-box">
+            <input type="file" id="importFile" accept=".json,.csv" />
+            <button class="btn" id="importBtn">Import File</button>
+          </div>
+
+          <p class="footer-note">
+            Import supports JSON and simple CSV. Imported items are added to your existing applications.
+          </p>
+        </div>
+      </section>
+
+      <section class="section" id="section-settings">
+        <div class="panel">
+          <div class="panel-header">
+            <h3>Settings</h3>
+          </div>
+
+          <div class="form-grid settings-grid">
+            <div class="field">
+              <label for="sidebarModeToggle">Sidebar mode</label>
+              <select id="sidebarModeToggle">
+                <option value="hover">Hover to open</option>
+                <option value="pinned">Pinned permanently</option>
+              </select>
+            </div>
+
+            <div class="field full">
+              <label>Themes</label>
+              <div class="theme-grid" id="themeChips"></div>
+            </div>
+          </div>
+
+          <p class="footer-note">
+            Theme changes affect the whole app: cards, panels, form fields, filters, sidebar, and layout styling.
+          </p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
